@@ -40,6 +40,25 @@ function updateDisplay() {
   activeDisplay.textContent = calculator.displayVal;
 }
 
+function inputNumber(key) {
+  if (!Number(calculator.displayVal)) {
+    calculator.displayVal = key.dataset.num;
+  } else {
+    calculator.displayVal += key.dataset.num;
+  }
+}
+
+function inputOperand(key) {
+  if (!calculator.operand) {
+    if (!Number(calculator.valOne))
+      calculator.valOne = Number(calculator.displayVal);
+    calculator.operand = key.dataset.op;
+    calculator.displayVal = 0;
+  } else {
+    calculator.operand = key.dataset.op;
+  }
+}
+
 const calculator = {
   displayVal: 0,
   valOne: 0,
@@ -48,26 +67,15 @@ const calculator = {
 };
 
 numKeys.forEach((key) => {
-  key.addEventListener("click", (e) => {
-    if (!Number(calculator.displayVal)) {
-      calculator.displayVal = key.dataset.num;
-    } else {
-      calculator.displayVal += key.dataset.num;
-    }
+  key.addEventListener("click", () => {
+    inputNumber(key);
     updateDisplay();
   });
 });
 
 opKeys.forEach((key) => {
-  key.addEventListener("click", (e) => {
-    if (!calculator.operand) {
-      if (!Number(calculator.valOne))
-        calculator.valOne = Number(calculator.displayVal);
-      calculator.operand = key.dataset.op;
-      calculator.displayVal = 0;
-    } else {
-      calculator.operand = key.dataset.op;
-    }
+  key.addEventListener("click", () => {
+    inputOperand(key);
   });
 });
 
