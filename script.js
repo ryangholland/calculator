@@ -3,6 +3,7 @@ const activeDisplay = document.querySelector(".display-active");
 const numKeys = document.querySelectorAll("button[data-num]");
 const opKeys = document.querySelectorAll("button[data-op]");
 const equalsKey = document.querySelector("button[data-equals]");
+const clearKey = document.querySelector("button[data-clear]");
 
 function add(num1, num2) {
   return num1 + num2;
@@ -83,6 +84,12 @@ function resetSoft() {
   calculator.displayVal = 0;
 }
 
+function resetHard() {
+  resetSoft();
+  calculator.valOne = 0;
+  updateDisplay();
+}
+
 const calculator = {
   displayVal: 0,
   valOne: 0,
@@ -110,3 +117,5 @@ equalsKey.addEventListener("click", (e) => {
   updateDisplay();
   resetSoft();
 });
+
+clearKey.addEventListener("click", resetHard);
