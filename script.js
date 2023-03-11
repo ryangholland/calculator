@@ -2,6 +2,7 @@ const activeDisplay = document.querySelector(".display-active");
 
 const numKeys = document.querySelectorAll("button[data-num]");
 const opKeys = document.querySelectorAll("button[data-op]");
+const equalsKey = document.querySelector("button[data-equals]");
 
 function add(num1, num2) {
   return num1 + num2;
@@ -43,7 +44,7 @@ const calculator = {
   displayVal: 0,
   valOne: 0,
   operand: null,
-  valTwo: null,
+  valTwo: 0,
 };
 
 numKeys.forEach((key) => {
@@ -59,9 +60,36 @@ numKeys.forEach((key) => {
 
 opKeys.forEach((key) => {
   key.addEventListener("click", (e) => {
-    calculator.valOne = calculator.displayVal;
-    calculator.operand = key.dataset.op;
-    calculator.displayVal = 0;
-    console.log(calculator)
+    if (!calculator.operand) {
+      if (!Number(calculator.valOne))
+        calculator.valOne = Number(calculator.displayVal);
+      calculator.operand = key.dataset.op;
+      calculator.displayVal = 0;
+    } else {
+      calculator.operand = key.dataset.op;
+    }
   });
+});
+
+equalsKey.addEventListener("click", (e) => {
+  if (!calculator.operand) return;
+
+  calculator.valTwo = Number(calculator.displayVal);
+
+  let answer = operate(
+    calculator.operand,
+    calculator.valOne,
+    calculator.valTwo
+  );
+
+  calculator.displayVal = answer;
+  updateDisplay();
+  console.log(calculator);
+
+  calculator.valOne = Number(calculator.displayVal);
+  calculator.operand = null;
+  calculator.valTwo = 0;
+  calculator.displayVal = 0;
+
+  console.log(calculator);
 });
