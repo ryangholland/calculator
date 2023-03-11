@@ -59,6 +59,25 @@ function inputOperand(key) {
   }
 }
 
+function handleEquals() {
+  calculator.valTwo = Number(calculator.displayVal);
+
+  let answer = operate(
+    calculator.operand,
+    calculator.valOne,
+    calculator.valTwo
+  );
+
+  calculator.displayVal = answer;
+}
+
+function resetSoft() {
+  calculator.valOne = Number(calculator.displayVal);
+  calculator.operand = null;
+  calculator.valTwo = 0;
+  calculator.displayVal = 0;
+}
+
 const calculator = {
   displayVal: 0,
   valOne: 0,
@@ -82,22 +101,7 @@ opKeys.forEach((key) => {
 equalsKey.addEventListener("click", (e) => {
   if (!calculator.operand) return;
 
-  calculator.valTwo = Number(calculator.displayVal);
-
-  let answer = operate(
-    calculator.operand,
-    calculator.valOne,
-    calculator.valTwo
-  );
-
-  calculator.displayVal = answer;
+  handleEquals();
   updateDisplay();
-  console.log(calculator);
-
-  calculator.valOne = Number(calculator.displayVal);
-  calculator.operand = null;
-  calculator.valTwo = 0;
-  calculator.displayVal = 0;
-
-  console.log(calculator);
+  resetSoft();
 });
