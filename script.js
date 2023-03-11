@@ -38,7 +38,29 @@ function operate(operand, num1, num2) {
 }
 
 function updateDisplay() {
-  activeDisplay.textContent = calculator.displayVal;
+  let displayStr = calculator.displayVal.toString();
+
+  // Check if displayStr contains a "."
+  if (displayStr.indexOf(".") === -1) {
+    // If it doesn't, max length is 12; reject any above 12
+    if (displayStr.length > 12) displayStr = "ERR: BIG NUM";
+  } else {
+    // If it does, split the string on the "."
+    let splitStr = displayStr.split(".");
+    // Number left of "." has a max length of 10; reject any above 10
+    if (splitStr.length > 10) {
+      displayStr = "ERR: BIG NUM";
+    } else {
+      // Round the number to the right using as many decimal places as possible
+      // Formula : 11 - num on left
+      splitStr[1] = splitStr[1].slice(0, 11 - splitStr[0].length);
+      // Make it into a number then back to a string to remove trailing zeroes
+      let temp = Number(splitStr.join("."));
+      displayStr = temp.toString();
+    }
+  }
+
+  activeDisplay.textContent = displayStr;
 }
 
 function inputNumber(key) {
