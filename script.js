@@ -53,7 +53,12 @@ function inputOperand(key) {
     if (!Number(calculator.valOne))
       calculator.valOne = Number(calculator.displayVal);
     calculator.operand = key.dataset.op;
-    calculator.displayVal = 0;
+    calculator.displayVal = null;
+  } else if (Number(calculator.displayVal)) {
+    handleEquals();
+    updateDisplay();
+    resetSoft();
+    calculator.operand = key.dataset.op;
   } else {
     calculator.operand = key.dataset.op;
   }
