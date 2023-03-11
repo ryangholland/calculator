@@ -29,8 +29,12 @@ function operate(operand, num1, num2) {
       return subtract(num1, num2);
     case "*":
       return multiply(num1, num2);
-    case "/":
-      return divide(num1, num2);
+    case "divide":
+      if (num2 == 0) {
+        return "ERR: DIVBY0";
+      } else {
+        return divide(num1, num2);
+      }
     default:
       console.log("Operand problem");
       return "ERROR";
