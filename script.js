@@ -73,15 +73,19 @@ function inputNumber(key) {
   } else {
     calculator.displayVal += key.dataset.num;
   }
+
+  if (!calculator.operand) {
+    calculator.valOne = Number(calculator.displayVal);
+  } else {
+    calculator.valTwo = Number(calculator.displayVal);
+  }
 }
 
 function inputOperand(key) {
   if (!calculator.operand) {
-    if (!Number(calculator.valOne))
-      calculator.valOne = Number(calculator.displayVal);
     calculator.operand = key.dataset.op;
-    calculator.displayVal = null;
-  } else if (Number(calculator.displayVal)) {
+    calculator.displayVal = 0;
+  } else if (calculator.displayVal !== null) {
     handleEquals();
     updateDisplay();
     resetSoft();
@@ -106,21 +110,21 @@ function handleEquals() {
 function resetSoft() {
   calculator.valOne = Number(calculator.displayVal);
   calculator.operand = null;
-  calculator.valTwo = 0;
+  calculator.valTwo = null;
   calculator.displayVal = 0;
 }
 
 function resetHard() {
   resetSoft();
-  calculator.valOne = 0;
+  calculator.valOne = null;
   updateDisplay();
 }
 
 const calculator = {
   displayVal: 0,
-  valOne: 0,
+  valOne: null,
   operand: null,
-  valTwo: 0,
+  valTwo: null,
 };
 
 numKeys.forEach((key) => {
