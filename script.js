@@ -4,6 +4,7 @@ const numKeys = document.querySelectorAll("button[data-num]");
 const opKeys = document.querySelectorAll("button[data-op]");
 const equalsKey = document.querySelector("button[data-equals]");
 const clearKey = document.querySelector("button[data-clear]");
+const decKey = document.querySelector("button[data-dec]");
 
 function add(num1, num2) {
   return num1 + num2;
@@ -68,7 +69,7 @@ function updateDisplay() {
 }
 
 function inputNumber(key) {
-  if (!Number(calculator.displayVal)) {
+  if (!calculator.displayVal) {
     calculator.displayVal = key.dataset.num;
   } else {
     calculator.displayVal += key.dataset.num;
@@ -120,6 +121,16 @@ function resetHard() {
   updateDisplay();
 }
 
+function inputDecimal() {
+  if (calculator.displayVal === 0) {
+    calculator.displayVal = "0.";
+    activeDisplay.textContent = calculator.displayVal;
+  } else if (calculator.displayVal.indexOf(".") === -1) {
+    calculator.displayVal += ".";
+    activeDisplay.textContent = calculator.displayVal;
+  }
+}
+
 const calculator = {
   displayVal: 0,
   valOne: null,
@@ -149,3 +160,5 @@ equalsKey.addEventListener("click", (e) => {
 });
 
 clearKey.addEventListener("click", resetHard);
+
+decKey.addEventListener("click", inputDecimal);
