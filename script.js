@@ -30,7 +30,7 @@ function operate(operand, num1, num2) {
       return subtract(num1, num2);
     case "*":
       return multiply(num1, num2);
-    case "divide":
+    case "/":
       if (num2 == 0) {
         return "ERR: DIVBY0";
       } else {
@@ -120,7 +120,7 @@ function resetHard() {
   calculator.valOne = null;
   updateDisplay();
 }
-
+1;
 function inputDecimal() {
   if (calculator.displayVal === 0) {
     calculator.displayVal = "0.";
@@ -162,3 +162,31 @@ equalsKey.addEventListener("click", (e) => {
 clearKey.addEventListener("click", resetHard);
 
 decKey.addEventListener("click", inputDecimal);
+
+document.addEventListener("keyup", (e) => {
+  clearKey.blur();
+
+  if (e.key === "Enter") {
+    equalsKey.click();
+  }
+
+  if (e.key === ".") {
+    decKey.click();
+  }
+
+  if (e.key === "Escape") {
+    clearKey.click();
+  }
+
+  numKeys.forEach((key) => {
+    if (key.dataset.num === e.key) {
+      key.click();
+    }
+  });
+
+  opKeys.forEach((key) => {
+    if (key.dataset.op === e.key) {
+      key.click();
+    }
+  });
+});
