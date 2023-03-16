@@ -5,6 +5,7 @@ const opKeys = document.querySelectorAll("button[data-op]");
 const equalsKey = document.querySelector("button[data-equals]");
 const clearKey = document.querySelector("button[data-clear]");
 const decKey = document.querySelector("button[data-dec]");
+const delKey = document.querySelector("button[data-del]");
 
 function add(num1, num2) {
   return num1 + num2;
@@ -120,7 +121,7 @@ function resetHard() {
   calculator.valOne = null;
   updateDisplay();
 }
-1;
+
 function inputDecimal() {
   if (calculator.displayVal === 0) {
     calculator.displayVal = "0.";
@@ -128,6 +129,27 @@ function inputDecimal() {
   } else if (calculator.displayVal.indexOf(".") === -1) {
     calculator.displayVal += ".";
     activeDisplay.textContent = calculator.displayVal;
+  }
+}
+
+function handleBackspace() {
+  if (!calculator.displayVal || calculator.displayVal === 0) {
+    return;
+  } else {
+    valArr = calculator.displayVal.split("");
+    valArr.pop();
+    if (valArr.length > 0) {
+      if (valArr[valArr.length - 1] === ".") valArr.pop();
+      calculator.displayVal = valArr.join("");
+    } else {
+      calculator.displayVal = 0;
+    }
+  }
+
+  if (!calculator.operand) {
+    calculator.valOne = Number(calculator.displayVal);
+  } else {
+    calculator.valTwo = Number(calculator.displayVal);
   }
 }
 
@@ -163,6 +185,11 @@ clearKey.addEventListener("click", resetHard);
 
 decKey.addEventListener("click", inputDecimal);
 
+delKey.addEventListener("click", () => {
+  handleBackspace();
+  updateDisplay();
+});
+
 document.addEventListener("keyup", (e) => {
   clearKey.blur();
 
@@ -176,6 +203,10 @@ document.addEventListener("keyup", (e) => {
 
   if (e.key === "Escape") {
     clearKey.click();
+  }
+
+  if (e.key === "Delete") {
+    delKey.click();
   }
 
   numKeys.forEach((key) => {
